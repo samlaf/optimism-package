@@ -1,5 +1,6 @@
 participant_network = import_module("./participant_network.star")
 blockscout = import_module("./blockscout/blockscout_launcher.star")
+da_server_launcher = import_module("./alt-da/da-server/da_server_launcher.star")
 contract_deployer = import_module("./contracts/contract_deployer.star")
 input_parser = import_module("./package_io/input_parser.star")
 static_files = import_module(
@@ -38,6 +39,7 @@ def launch_l2(
         l2_services_suffix,
         fork_activation_env,
         args_with_right_defaults.op_contract_deployer_params.image,
+        args_with_right_defaults.da_server_params,
     )
 
     plan.print("Deploying L2 with name {0}".format(network_params.name))
@@ -45,6 +47,19 @@ def launch_l2(
         src=static_files.JWT_PATH_FILEPATH,
         name="op_jwt_file{0}".format(l2_services_suffix),
     )
+
+    # we need to launch da-server before launching the participant network
+    # because op-node and op-batcher need to know the da-server url, if present
+    da_server_context = da_server_launcher.disabled_da_server_context()
+    if "da_server" in args_with_right_defaults.additional_services:
+        plan.print("Launching da-server")
+        da_server_context = da_server_launcher.launch(
+            plan,
+            "da-server{0}".format(l2_services_suffix),
+            args_with_right_defaults.da_server_params.da_server_extra_args,
+            args_with_right_defaults.da_server_params.generic_commitment,
+        )
+        plan.print("Successfully launched da-server")
 
     all_l2_participants = participant_network.launch_participant_network(
         plan,
@@ -56,6 +71,7 @@ def launch_l2(
         l1_config,
         l2oo_address,
         l2_services_suffix,
+        da_server_context,
     )
 
     all_el_contexts = []

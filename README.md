@@ -131,7 +131,14 @@ optimism_package:
   # Defaults to []
   # Available services:
   # - blockscout
+  # - da_server
   additional_services: []
+
+  # Configuration place for da-server - https://github.com/ethereum-optimism/optimism/tree/develop/op-alt-da
+  da_server_params:
+    # A list of optional extra params that will be passed to the da-server container for modifying its behaviour
+    da_server_extra_args: []
+    generic_commitment: false
 
   # L2 contract deployer configuration
   # The docker image that should be used for the L2 contract deployer

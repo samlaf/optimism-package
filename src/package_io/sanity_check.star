@@ -24,6 +24,7 @@ SUBCATEGORY_PARAMS = {
 
 ADDITIONAL_SERVICES_PARAMS = [
     "blockscout",
+    "da_server",
 ]
 
 
