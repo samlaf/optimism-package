@@ -166,9 +166,10 @@ def get_beacon_config(
         "--p2p.listen.tcp={0}".format(BEACON_DISCOVERY_PORT_NUM),
         "--p2p.listen.udp={0}".format(BEACON_DISCOVERY_PORT_NUM),
         "--altda.enabled=" + str(da_server_context.enabled),
-        "--altda.da-service=" + da_server_context.generic_commitment,
+        "--altda.da-service=" + str(da_server_context.generic_commitment),
         "--altda.da-server=" + da_server_context.http_url,
     ]
+    plan.print(da_server_context.generic_commitment)
 
     if sequencer_enabled:
         cmd.append("--p2p.sequencer.key=" + gs_sequencer_private_key)

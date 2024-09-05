@@ -92,7 +92,7 @@ def get_batcher_config(
         "--private-key=" + gs_batcher_private_key,
         "--altda.enabled=" + str(da_server_context.enabled),
         "--altda.da-server=" + da_server_context.http_url,
-        "--altda.da-service=" + da_server_context.generic_commitment,
+        "--altda.da-service=" + str(da_server_context.generic_commitment),
         "--data-availability-type=" + "calldata" if da_server_context.enabled else "blobs",
     ]
 
