@@ -66,7 +66,7 @@ def get_da_server_config(
         "--addr=0.0.0.0",
         "--port=3100",
         "--log.level=debug",
-        "--generic-commitment=" + generic_commitment,
+        "--generic-commitment=" + str(generic_commitment),
     ]
 
     if len(da_server_extra_args) > 0:
@@ -80,7 +80,7 @@ def get_da_server_config(
     )
 
 def disabled_da_server_context():
-    return struct(
+    return new_da_server_context(
         http_url="",
         generic_commitment=True,
     )

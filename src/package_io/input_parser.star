@@ -183,7 +183,7 @@ def default_op_contract_deployer_params():
 
 def default_da_server_params():
     return {
-        "enabled": "false",
+        "enabled": False,
         "da_server_extra_args": [],
-        "generic_commitment": "false",
+        "generic_commitment": False,
     }
