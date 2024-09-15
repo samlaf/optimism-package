@@ -31,6 +31,7 @@ def get_used_ports():
 def launch(
     plan,
     service_name,
+    image,
     da_server_extra_args,
     generic_commitment,
 ):
@@ -38,6 +39,7 @@ def launch(
     config = get_da_server_config(
         plan,
         service_name,
+        image,
         da_server_extra_args,
         generic_commitment,
     )
@@ -54,10 +56,10 @@ def launch(
 def get_da_server_config(
     plan,
     service_name,
+    image,
     da_server_extra_args,
     generic_commitment,
 ):
-    image = "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:devnet"
     ports = get_used_ports()
 
     cmd = [

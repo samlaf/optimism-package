@@ -26,6 +26,8 @@ DEFAULT_PROPOSER_IMAGES = {
 }
 
 DEFAULT_DA_SERVER_IMAGES = {
+    # TODO: latest tag is super outdated, and doesn't have the --generic-commitment flag
+    # the latest v0.1.0-rc.1 image from June doesn't run on macos...
     "da-server": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
 }
 
@@ -79,6 +81,7 @@ def input_parser(plan, input_args):
         ),
         da_server_params=struct(
             enabled=result["da_server_params"]["enabled"],
+            image=result["da_server_params"]["image"],
             da_server_extra_args=result["da_server_params"]["da_server_extra_args"],
             generic_commitment=result["da_server_params"]["generic_commitment"],
         ),
@@ -184,6 +187,7 @@ def default_op_contract_deployer_params():
 def default_da_server_params():
     return {
         "enabled": False,
+        "image": DEFAULT_DA_SERVER_IMAGES["da-server"],
         "da_server_extra_args": [],
         "generic_commitment": False,
     }
