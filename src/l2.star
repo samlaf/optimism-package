@@ -56,6 +56,7 @@ def launch_l2(
         da_server_context = da_server_launcher.launch(
             plan,
             "da-server{0}".format(l2_services_suffix),
+            args_with_right_defaults.da_server_params.image,
             args_with_right_defaults.da_server_params.da_server_extra_args,
             args_with_right_defaults.da_server_params.generic_commitment,
         )
