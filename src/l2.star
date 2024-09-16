@@ -52,11 +52,24 @@ def launch_l2(
     # because op-node and op-batcher need to know the da-server url, if present
     da_server_context = da_server_launcher.disabled_da_server_context()
     if "da_server" in args_with_right_defaults.additional_services:
+        da_server_image = args_with_right_defaults.da_server_params.image
+        if args_with_right_defaults.da_server_params.build_image:
+            plan.print("Building da-server image")
+            da_server_image = ImageBuildSpec(
+                image_name=args_with_right_defaults.da_server_params.image,
+                # TODO: this doesn't work... because can't point to a dir outside of the kurtosis package
+                # also can't install optimism monorepo as a submodule because that makes the kurtosis package > 100MB, which is not allowed.
+                # Not sure how to fix this... detailed problem in https://github.com/ethpandaops/optimism-package/issues/72
+                build_context_dir="/Users/samlaf/devel/eigenlayer/da-integrations/optimism/ops/docker/op-stack-go",
+                target_stage="da-server-target",
+            )
+            plan.print("Successfully built da-server image")
+        plan.print("")
         plan.print("Launching da-server")
         da_server_context = da_server_launcher.launch(
             plan,
             "da-server{0}".format(l2_services_suffix),
-            args_with_right_defaults.da_server_params.image,
+            da_server_image,
             args_with_right_defaults.da_server_params.da_server_extra_args,
             args_with_right_defaults.da_server_params.generic_commitment,
         )

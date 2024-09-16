@@ -26,9 +26,9 @@ DEFAULT_PROPOSER_IMAGES = {
 }
 
 DEFAULT_DA_SERVER_IMAGES = {
-    # TODO: latest tag is super outdated, and doesn't have the --generic-commitment flag
-    # the latest v0.1.0-rc.1 image from June doesn't run on macos...
-    "da-server": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
+    # latest tag is super outdated, and doesn't have the --generic-commitment flag
+    # so we use the dev tag as default, which requires building locally (see default_da_server_params)
+    "da-server": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:dev",
 }
 
 ATTR_TO_BE_SKIPPED_AT_ROOT = (
@@ -82,6 +82,7 @@ def input_parser(plan, input_args):
         da_server_params=struct(
             enabled=result["da_server_params"]["enabled"],
             image=result["da_server_params"]["image"],
+            build_image=result["da_server_params"]["build_image"],
             da_server_extra_args=result["da_server_params"]["da_server_extra_args"],
             generic_commitment=result["da_server_params"]["generic_commitment"],
         ),
@@ -188,6 +189,7 @@ def default_da_server_params():
     return {
         "enabled": False,
         "image": DEFAULT_DA_SERVER_IMAGES["da-server"],
+        "build_image": True,
         "da_server_extra_args": [],
         "generic_commitment": False,
     }
