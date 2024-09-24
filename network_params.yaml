@@ -6,10 +6,6 @@ optimism_package:
     - el_type: op-nethermind
     - el_type: op-besu
   additional_services:
-    - da_server
-  #   - blockscout
-  da_server_params:
-    image: us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:dev
-    build_image: True
+    - blockscout
   op_contract_deployer_params:
     image: ethpandaops/optimism-contract-deployer:develop
