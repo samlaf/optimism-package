@@ -39,7 +39,13 @@ optimism_package:
       mev_params:
         builder_host: ""
         builder_port: ""
-      additional_services: []
+      da_server_params:
+        image: us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest
+        # A list of optional extra params that will be passed to the da-server container for modifying its behaviour
+        da_server_extra_args: []
+        generic_commitment: false
+      additional_services:
+        - da_server
   op_contract_deployer_params:
     image: us-docker.pkg.dev/oplabs-tools-artifacts/images/op-deployer:v0.0.11
     l1_artifacts_locator: https://storage.googleapis.com/oplabs-contract-artifacts/artifacts-v1-c193a1863182092bc6cb723e523e8313a0f4b6e9c9636513927f1db74c047c15.tar.gz

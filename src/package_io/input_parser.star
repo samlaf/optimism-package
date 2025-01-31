@@ -37,6 +37,11 @@ DEFAULT_SIDECAR_IMAGES = {
     "rollup-boost": "flashbots/rollup-boost:latest",
 }
 
+DEFAULT_DA_SERVER_IMAGES = {
+    "da-server": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
+}
+
+
 DEFAULT_ADDITIONAL_SERVICES = []
 
 
@@ -199,6 +204,12 @@ def input_parser(plan, input_args):
                     builder_host=result["mev_params"]["builder_host"],
                     builder_port=result["mev_params"]["builder_port"],
                 ),
+                da_server_params=struct(
+                    enabled=result["da_server_params"]["enabled"],
+                    image=result["da_server_params"]["image"],
+                    da_server_extra_args=result["da_server_params"]["da_server_extra_args"],
+                    generic_commitment=result["da_server_params"]["generic_commitment"],
+                ),
                 additional_services=result["additional_services"],
             )
             for result in results["chains"]
@@ -271,6 +282,8 @@ def parse_network_params(plan, input_args):
 
         mev_params = default_mev_params()
         mev_params.update(chain.get("mev_params", {}))
+        da_server_params = default_da_server_params()
+        da_server_params.update(chain.get("da_server_params", {}))
 
         network_name = network_params["name"]
         network_id = network_params["network_id"]
@@ -347,6 +360,7 @@ def parse_network_params(plan, input_args):
             "challenger_params": challenger_params,
             "proposer_params": proposer_params,
             "mev_params": mev_params,
+            "da_server_params": da_server_params,
             "additional_services": chain.get(
                 "additional_services", DEFAULT_ADDITIONAL_SERVICES
             ),
@@ -440,6 +454,7 @@ def default_chains():
             "challenger_params": default_challenger_params(),
             "proposer_params": default_proposer_params(),
             "mev_params": default_mev_params(),
+            "da_server_params": default_da_server_params(),
             "additional_services": DEFAULT_ADDITIONAL_SERVICES,
         }
     ]
@@ -573,4 +588,12 @@ def default_ethereum_package_network_params():
                 }
             ),
         }
+    }
+
+def default_da_server_params():
+    return {
+        "enabled": False,
+        "image": DEFAULT_DA_SERVER_IMAGES["da-server"],
+        "da_server_extra_args": [],
+        "generic_commitment": False,
     }

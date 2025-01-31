@@ -92,6 +92,11 @@ SUBCATEGORY_PARAMS = {
     ],
     "proposer_params": ["image", "extra_params", "game_type", "proposal_interval"],
     "mev_params": ["rollup_boost_image", "builder_host", "builder_port"],
+    "da_server_params": [
+        "image",
+        "da_server_extra_args",
+        "generic_commitment",
+    ],
 }
 
 OP_CONTRACT_DEPLOYER_PARAMS = [
@@ -106,6 +111,8 @@ OP_CONTRACT_DEPLOYER_GLOBAL_DEPLOY_OVERRIDES = ["faultGameAbsolutePrestate"]
 ADDITIONAL_SERVICES_PARAMS = [
     "blockscout",
     "rollup-boost",
+    # TODO: move this to a separate global section. See https://github.com/ethpandaops/optimism-package/pull/69#issuecomment-2486082229
+    "da_server",
 ]
 
 ROOT_PARAMS = [

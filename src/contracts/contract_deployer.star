@@ -20,7 +20,7 @@ CANNED_VALUES = (
 )
 
 
-def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_network):
+def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_network, da_server_params):
     l2_chain_ids_list = [
         str(chain.network_params.network_id) for chain in optimism_args.chains
     ]
@@ -30,7 +30,12 @@ def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_netwo
         name="op-deployer-init",
         description="Initialize L2 contract deployments",
         image=optimism_args.op_contract_deployer_params.image,
-        env_vars=l1_config_env_vars,
+        env_vars=l1_config_env_vars
+        # TODO: don't think op-deployer uses these env vars...
+        | {
+            "USE_ALTDA": "true" if da_server_params.enabled else "false",
+            "DA_COMMITMENT_TYPE": "GenericCommitment" if da_server_params.generic_commitment else "KeccakCommitment"
+        },
         store=[
             StoreSpec(
                 src="/network-data",
@@ -201,6 +206,12 @@ def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_netwo
                 address_update(
                     chain_key(i, "roles.unsafeBlockSigner"), "sequencer", chain_id
                 ),
+                ("bool", chain_key(i, "dangerousAltDAConfig.useAltDA"), "true"),
+                ("string", chain_key(i, "dangerousAltDAConfig.daCommitmentType"), "KeccakCommitment"),
+                ("int", chain_key(i, "dangerousAltDAConfig.daChallengeWindow"), "100"),
+                ("int", chain_key(i, "dangerousAltDAConfig.daResolveWindow"), "100"),
+                ("int", chain_key(i, "dangerousAltDAConfig.daBondSize"), "1000000"),
+                ("int", chain_key(i, "dangerousAltDAConfig.daResolverRefundPercentage"), "100"),
             ]
         )
         intent_updates.extend([(t, chain_key(i, k), v) for t, k, v in CANNED_VALUES])
