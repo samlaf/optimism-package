@@ -34,6 +34,15 @@ SUPERVISOR_PARAMS = [
     "extra_params",
 ]
 
+ALTDA_DEPLOY_CONFIG_PARAMS = [
+    "use_altda",
+    "da_commitment_type",
+    "da_challenge_window",
+    "da_resolve_window",
+    "da_bond_size",
+    "da_resolver_refund_percentage",
+]
+
 PARTICIPANT_CATEGORIES = {
     "participants": [
         "el_type",
@@ -118,6 +127,7 @@ ADDITIONAL_SERVICES_PARAMS = [
 ROOT_PARAMS = [
     "observability",
     "interop",
+    "altda_deploy_config",
     "chains",
     "op_contract_deployer_params",
     "global_log_level",
@@ -206,6 +216,14 @@ def sanity_check(plan, optimism_config):
                 "supervisor_params",
                 SUPERVISOR_PARAMS,
             )
+
+    if "altda_deploy_config" in optimism_config:
+        validate_params(
+            plan,
+            optimism_config["altda_deploy_config"],
+            "altda_deploy_config",
+            ALTDA_DEPLOY_CONFIG_PARAMS,
+        )
 
     chains = optimism_config.get("chains", [])
 

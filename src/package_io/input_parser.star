@@ -114,6 +114,16 @@ def input_parser(plan, input_args):
                 extra_params=results["interop"]["supervisor_params"]["extra_params"],
             ),
         ),
+        altda_deploy_config=struct(
+            use_altda=results["altda_deploy_config"]["use_altda"],
+            da_commitment_type=results["altda_deploy_config"]["da_commitment_type"],
+            da_challenge_window=results["altda_deploy_config"]["da_challenge_window"],
+            da_resolve_window=results["altda_deploy_config"]["da_resolve_window"],
+            da_bond_size=results["altda_deploy_config"]["da_bond_size"],
+            da_resolver_refund_percentage=results["altda_deploy_config"][
+                "da_resolver_refund_percentage"
+            ],
+        ),
         chains=[
             struct(
                 participants=[
@@ -272,6 +282,11 @@ def parse_network_params(plan, input_args):
         input_args.get("interop", {}).get("supervisor_params", {})
     )
 
+    # configure altda
+
+    results["altda_deploy_config"] = default_altda_deploy_config()
+    results["altda_deploy_config"].update(input_args.get("altda_deploy_config", {}))
+
     # configure chains
 
     chains = []
@@ -396,6 +411,7 @@ def default_optimism_params():
     return {
         "observability": default_observability_params(),
         "interop": default_interop_params(),
+        "altda": default_altda_deploy_config(),
         "chains": default_chains(),
         "op_contract_deployer_params": default_op_contract_deployer_params(),
         "global_log_level": "info",
@@ -437,6 +453,17 @@ def default_grafana_params():
 def default_interop_params():
     return {
         "enabled": False,
+    }
+
+
+def default_altda_deploy_config():
+    return {
+        "use_altda": "false",
+        "da_commitment_type": "KeccakCommitment",
+        "da_challenge_window": 100,
+        "da_resolve_window": 100,
+        "da_bond_size": 0,
+        "da_resolver_refund_percentage": 0,
     }
 
 

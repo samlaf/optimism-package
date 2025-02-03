@@ -122,10 +122,16 @@ optimism_package:
       # A list of optional extra params that will be passed to the supervisor container for modifying its behaviour
       extra_params: []
 
-  altda:
+  # AltDA Deploy Configuration
+  altda_deploy_config:
     # For simplicity we currently enforce chains to all be altda or all rollups.
     # Adding a single altda chain to a cluster essentially makes all chains have altda levels of security.
-    enabled: true
+    use_altda: false
+    da_commitment_type: KeccakCommitment
+    da_challenge_window: 100
+    da_resolve_window: 100
+    da_bond_size: 0
+    da_resolver_refund_percentage: 0
 
   # An array of L2 networks to run
   chains:

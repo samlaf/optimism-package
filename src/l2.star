@@ -32,7 +32,7 @@ def launch_l2(
     plan.print("Deploying L2 with name {0}".format(network_params.name))
 
     # we need to launch da-server before launching the participant network
-    # because op-node and op-batcher need to know the da-server url, if present
+    # because op-batcher and op-node(s) need to know the da-server url, if present
     da_server_context = da_server_launcher.disabled_da_server_context()
     if "da_server" in l2_args.additional_services:
         da_server_image = l2_args.da_server_params.image

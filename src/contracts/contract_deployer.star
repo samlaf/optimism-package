@@ -21,7 +21,7 @@ CANNED_VALUES = (
 
 
 def deploy_contracts(
-    plan, priv_key, l1_config_env_vars, optimism_args, l1_network, da_server_params
+    plan, priv_key, l1_config_env_vars, optimism_args, l1_network, altda_args
 ):
     l2_chain_ids_list = [
         str(chain.network_params.network_id) for chain in optimism_args.chains
@@ -203,20 +203,36 @@ def deploy_contracts(
                 address_update(
                     chain_key(i, "roles.unsafeBlockSigner"), "sequencer", chain_id
                 ),
-                # TODO: make these optional and configurable
-                ("bool", chain_key(i, "dangerousAltDAConfig.useAltDA"), "true"),
+                # altda deploy config
+                (
+                    "bool",
+                    chain_key(i, "dangerousAltDAConfig.useAltDA"),
+                    altda_args.use_altda,
+                ),
                 (
                     "string",
                     chain_key(i, "dangerousAltDAConfig.daCommitmentType"),
-                    "KeccakCommitment",
+                    altda_args.da_commitment_type,
                 ),
-                ("int", chain_key(i, "dangerousAltDAConfig.daChallengeWindow"), "100"),
-                ("int", chain_key(i, "dangerousAltDAConfig.daResolveWindow"), "100"),
-                ("int", chain_key(i, "dangerousAltDAConfig.daBondSize"), "1000000"),
+                (
+                    "int",
+                    chain_key(i, "dangerousAltDAConfig.daChallengeWindow"),
+                    altda_args.da_challenge_window,
+                ),
+                (
+                    "int",
+                    chain_key(i, "dangerousAltDAConfig.daResolveWindow"),
+                    altda_args.da_resolve_window,
+                ),
+                (
+                    "int",
+                    chain_key(i, "dangerousAltDAConfig.daBondSize"),
+                    altda_args.da_bond_size,
+                ),
                 (
                     "int",
                     chain_key(i, "dangerousAltDAConfig.daResolverRefundPercentage"),
-                    "100",
+                    altda_args.da_resolver_refund_percentage,
                 ),
             ]
         )
