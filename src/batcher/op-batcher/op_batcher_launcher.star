@@ -103,10 +103,11 @@ def get_batcher_config(
         "--max-channel-duration=1",
         "--l1-eth-rpc=" + l1_config_env_vars["L1_RPC_URL"],
         "--private-key=" + gs_batcher_private_key,
+        # da commitments currently have to be sent as calldata to the batcher inbox
+        "--data-availability-type=" + "calldata" if da_server_context.enabled else "blobs",
         "--altda.enabled=" + str(da_server_context.enabled),
         "--altda.da-server=" + da_server_context.http_url,
         "--altda.da-service=" + str(da_server_context.generic_commitment),
-        "--data-availability-type=" + "calldata" if da_server_context.enabled else "blobs",
     ]
 
     # apply customizations

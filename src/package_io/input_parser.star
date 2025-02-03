@@ -37,8 +37,19 @@ DEFAULT_SIDECAR_IMAGES = {
     "rollup-boost": "flashbots/rollup-boost:latest",
 }
 
-DEFAULT_DA_SERVER_IMAGES = {
-    "da-server": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
+DEFAULT_DA_SERVER_PARAMS = {
+    "image": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
+    "cmd": [
+        "da-server",
+        # We use the file storage backend instead of s3 for simplicity.
+        # Blobs and commitments are stored in the /home directory (which already exists).
+        # Note that this storage is ephemeral because we aren't mounting an external kurtosis file.
+        # This means that the data is lost when the container is deleted.
+        "--file.path=/home",
+        "--addr=0.0.0.0",
+        "--port=3100",
+        "--log.level=debug",
+    ]
 }
 
 
@@ -207,7 +218,7 @@ def input_parser(plan, input_args):
                 da_server_params=struct(
                     enabled=result["da_server_params"]["enabled"],
                     image=result["da_server_params"]["image"],
-                    da_server_extra_args=result["da_server_params"]["da_server_extra_args"],
+                    cmd=result["da_server_params"]["cmd"],
                     generic_commitment=result["da_server_params"]["generic_commitment"],
                 ),
                 additional_services=result["additional_services"],
@@ -593,7 +604,7 @@ def default_ethereum_package_network_params():
 def default_da_server_params():
     return {
         "enabled": False,
-        "image": DEFAULT_DA_SERVER_IMAGES["da-server"],
-        "da_server_extra_args": [],
+        "image": DEFAULT_DA_SERVER_PARAMS["image"],
+        "cmd": DEFAULT_DA_SERVER_PARAMS["cmd"],
         "generic_commitment": False,
     }

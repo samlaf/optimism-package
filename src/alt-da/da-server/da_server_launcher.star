@@ -5,12 +5,6 @@ constants = import_module(
     "github.com/ethpandaops/ethereum-package/src/package_io/constants.star"
 )
 
-# The dirpath of the data directory on the da-server container
-# note that we use /home which is available but not persistent
-# because we aren't mounting an external kurtosis file
-# this means that the data is lost when the container is deleted
-DATA_DIRPATH_ON_DA_SERVER_CONTAINER = "/home"
-
 # Port IDs
 DA_SERVER_HTTP_PORT_ID = "http"
 
@@ -32,7 +26,7 @@ def launch_da_server(
     plan,
     service_name,
     image,
-    da_server_extra_args,
+    cmd,
     generic_commitment,
 ):
 
@@ -40,7 +34,7 @@ def launch_da_server(
         plan,
         service_name,
         image,
-        da_server_extra_args,
+        cmd,
         generic_commitment,
     )
 
@@ -57,22 +51,10 @@ def get_da_server_config(
     plan,
     service_name,
     image,
-    da_server_extra_args,
+    cmd,
     generic_commitment,
 ):
     ports = get_used_ports()
-
-    cmd = [
-        "da-server",
-        "--file.path=" + DATA_DIRPATH_ON_DA_SERVER_CONTAINER,
-        "--addr=0.0.0.0",
-        "--port=3100",
-        "--log.level=debug",
-        "--generic-commitment=" + str(generic_commitment),
-    ]
-
-    if len(da_server_extra_args) > 0:
-        cmd.extend([param for param in da_server_extra_args])
 
     return ServiceConfig(
         image=image,

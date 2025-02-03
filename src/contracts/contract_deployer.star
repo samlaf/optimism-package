@@ -30,12 +30,7 @@ def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_netwo
         name="op-deployer-init",
         description="Initialize L2 contract deployments",
         image=optimism_args.op_contract_deployer_params.image,
-        env_vars=l1_config_env_vars
-        # TODO: don't think op-deployer uses these env vars...
-        | {
-            "USE_ALTDA": "true" if da_server_params.enabled else "false",
-            "DA_COMMITMENT_TYPE": "GenericCommitment" if da_server_params.generic_commitment else "KeccakCommitment"
-        },
+        env_vars=l1_config_env_vars,
         store=[
             StoreSpec(
                 src="/network-data",
@@ -206,6 +201,7 @@ def deploy_contracts(plan, priv_key, l1_config_env_vars, optimism_args, l1_netwo
                 address_update(
                     chain_key(i, "roles.unsafeBlockSigner"), "sequencer", chain_id
                 ),
+                # TODO: make these optional and configurable
                 ("bool", chain_key(i, "dangerousAltDAConfig.useAltDA"), "true"),
                 ("string", chain_key(i, "dangerousAltDAConfig.daCommitmentType"), "KeccakCommitment"),
                 ("int", chain_key(i, "dangerousAltDAConfig.daChallengeWindow"), "100"),

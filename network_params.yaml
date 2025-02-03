@@ -42,7 +42,12 @@ optimism_package:
       da_server_params:
         image: us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest
         # A list of optional extra params that will be passed to the da-server container for modifying its behaviour
-        da_server_extra_args: []
+        cmd:
+          - "da-server"
+          - "--file.path=/home"
+          - "--addr=0.0.0.0"
+          - "--port=3100"
+          - "--log.level=debug"
         generic_commitment: false
       additional_services:
         - da_server

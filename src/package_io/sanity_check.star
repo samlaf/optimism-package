@@ -94,7 +94,7 @@ SUBCATEGORY_PARAMS = {
     "mev_params": ["rollup_boost_image", "builder_host", "builder_port"],
     "da_server_params": [
         "image",
-        "da_server_extra_args",
+        "cmd",
         "generic_commitment",
     ],
 }

@@ -121,6 +121,12 @@ optimism_package:
 
       # A list of optional extra params that will be passed to the supervisor container for modifying its behaviour
       extra_params: []
+
+  altda:
+    # For simplicity we currently enforce chains to all be altda or all rollups.
+    # Adding a single altda chain to a cluster essentially makes all chains have altda levels of security.
+    enabled: true
+
   # An array of L2 networks to run
   chains:
     # Specification of the optimism-participants in the network
@@ -395,10 +401,21 @@ optimism_package:
       additional_services: []
 
       # Configuration for da-server - https://specs.optimism.io/experimental/alt-da.html#da-server
+      # TODO: each op-node and op-batcher should potentially have their own da-server, instead of sharing one like we currently do. For eg batcher needs to write via its da-server, whereas op-nodes don't.
       da_server_params:
         image: us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest
-        # A list of optional extra params that will be passed to the da-server container for modifying its behaviour
-        da_server_extra_args: []
+        # Command to pass to the container.
+        # This is kept maximally generic to allow for any possible configuration, given that different
+        # da layer da-servers might have completely different flags.
+        # The below arguments are also the default, so can be ommitted, and will work as long as the image
+        # is the da-server above (which is also the default, so can also be omitted).
+        cmd:
+          - "da-server"
+          - "--file.path=/home"
+          - "--addr=0.0.0.0"
+          - "--port=3100"
+          - "--log.level=debug"
+        # TODO: is this only needed for da-server? so should be passed as part of command_args?
         generic_commitment: false
 
   # L2 contract deployer configuration - used for all L2 networks
