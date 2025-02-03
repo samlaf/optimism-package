@@ -49,7 +49,7 @@ DEFAULT_DA_SERVER_PARAMS = {
         "--addr=0.0.0.0",
         "--port=3100",
         "--log.level=debug",
-    ]
+    ],
 }
 
 
@@ -600,6 +600,7 @@ def default_ethereum_package_network_params():
             ),
         }
     }
+
 
 def default_da_server_params():
     return {

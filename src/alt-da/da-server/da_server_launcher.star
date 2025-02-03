@@ -22,6 +22,7 @@ def get_used_ports():
     }
     return used_ports
 
+
 def launch_da_server(
     plan,
     service_name,
@@ -29,7 +30,6 @@ def launch_da_server(
     cmd,
     generic_commitment,
 ):
-
     config = get_da_server_config(
         plan,
         service_name,
@@ -40,7 +40,9 @@ def launch_da_server(
 
     da_server_service = plan.add_service(service_name, config)
 
-    http_url = "http://{0}:{1}".format(da_server_service.ip_address, DA_SERVER_HTTP_PORT_NUM)
+    http_url = "http://{0}:{1}".format(
+        da_server_service.ip_address, DA_SERVER_HTTP_PORT_NUM
+    )
     return new_da_server_context(
         http_url=http_url,
         generic_commitment=generic_commitment,
@@ -63,16 +65,15 @@ def get_da_server_config(
         private_ip_address_placeholder=constants.PRIVATE_IP_ADDRESS_PLACEHOLDER,
     )
 
+
 def disabled_da_server_context():
     return new_da_server_context(
         http_url="",
         generic_commitment=True,
     )
 
-def new_da_server_context(
-    http_url,
-    generic_commitment
-):
+
+def new_da_server_context(http_url, generic_commitment):
     return struct(
         enabled=http_url != "",
         http_url=http_url,
