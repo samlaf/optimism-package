@@ -40,7 +40,7 @@ DEFAULT_SIDECAR_IMAGES = {
 DEFAULT_DA_SERVER_PARAMS = {
     "image": "us-docker.pkg.dev/oplabs-tools-artifacts/images/da-server:latest",
     "cmd": [
-        "da-server", # uses keccak commitments by default
+        "da-server",  # uses keccak commitments by default
         # We use the file storage backend instead of s3 for simplicity.
         # Blobs and commitments are stored in the /home directory (which already exists).
         # Note that this storage is ephemeral because we aren't mounting an external kurtosis file.
