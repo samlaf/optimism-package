@@ -104,7 +104,6 @@ SUBCATEGORY_PARAMS = {
     "da_server_params": [
         "image",
         "cmd",
-        "generic_commitment",
     ],
 }
 

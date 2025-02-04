@@ -28,7 +28,6 @@ def launch_da_server(
     service_name,
     image,
     cmd,
-    generic_commitment,
 ):
     config = get_da_server_config(
         plan,
@@ -45,7 +44,6 @@ def launch_da_server(
     # da_server_context is passed as argument to op-batcher and op-node(s)
     return new_da_server_context(
         http_url=http_url,
-        generic_commitment=generic_commitment,
     )
 
 
@@ -68,13 +66,11 @@ def get_da_server_config(
 def disabled_da_server_context():
     return new_da_server_context(
         http_url="",
-        generic_commitment=True,
     )
 
 
-def new_da_server_context(http_url, generic_commitment):
+def new_da_server_context(http_url):
     return struct(
         enabled=http_url != "",
         http_url=http_url,
-        generic_commitment=generic_commitment,
     )

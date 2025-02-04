@@ -194,10 +194,8 @@ def get_beacon_config(
         "--p2p.listen.udp={0}".format(BEACON_DISCOVERY_PORT_NUM),
         "--safedb.path={0}".format(BEACON_DATA_DIRPATH_ON_SERVICE_CONTAINER),
         "--altda.enabled=" + str(da_server_context.enabled),
-        "--altda.da-service=" + str(da_server_context.generic_commitment),
         "--altda.da-server=" + da_server_context.http_url,
     ]
-    plan.print(da_server_context.generic_commitment)
 
     # configure files
 

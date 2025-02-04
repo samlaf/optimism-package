@@ -130,8 +130,8 @@ optimism_package:
   # To setup an altda cluster, make sure to
   # 1. Set altda_deploy_config.use_altda to true (and da_commitment_type to KeccakCommitment, see TODO below)
   # 2. For each chain,
-  #    - Set da_server_params to use an image and cmd of your choice (one could use eigenda-proxy, another celestia proxy, etc). If unset, op's default da-server image will be used.
-  #    - Decide whether the batcher should be using keccak or generic commitments (make sure its respective da_server supports your choice). If using generic commitments, set batcher_params.extra_params to include "--altda.da-service".
+  #    - Add "da_server" to the additional_services list if it should use alt-da
+  #    - For altda chains, set da_server_params to use an image and cmd of your choice (one could use da-server, another eigenda-proxy, another celestia proxy, etc). If unset, op's default da-server image will be used.
   altda_deploy_config:
     use_altda: false
     # TODO: Is this field redundant? Afaiu setting it to GenericCommitment will not deploy the

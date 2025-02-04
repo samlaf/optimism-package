@@ -42,7 +42,6 @@ def launch_l2(
             "da-server{0}".format(l2_services_suffix),
             da_server_image,
             l2_args.da_server_params.cmd,
-            l2_args.da_server_params.generic_commitment,
         )
         plan.print("Successfully launched da-server")
 

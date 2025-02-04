@@ -109,7 +109,6 @@ def get_batcher_config(
         else "blobs",
         "--altda.enabled=" + str(da_server_context.enabled),
         "--altda.da-server=" + da_server_context.http_url,
-        "--altda.da-service=" + str(da_server_context.generic_commitment),
     ]
 
     # apply customizations
