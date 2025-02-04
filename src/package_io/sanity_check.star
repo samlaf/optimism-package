@@ -119,7 +119,6 @@ OP_CONTRACT_DEPLOYER_GLOBAL_DEPLOY_OVERRIDES = ["faultGameAbsolutePrestate"]
 ADDITIONAL_SERVICES_PARAMS = [
     "blockscout",
     "rollup-boost",
-    # TODO: move this to a separate global section. See https://github.com/ethpandaops/optimism-package/pull/69#issuecomment-2486082229
     "da_server",
 ]
 
