@@ -35,7 +35,6 @@ def launch_da_server(
         service_name,
         image,
         cmd,
-        generic_commitment,
     )
 
     da_server_service = plan.add_service(service_name, config)
@@ -43,6 +42,7 @@ def launch_da_server(
     http_url = "http://{0}:{1}".format(
         da_server_service.ip_address, DA_SERVER_HTTP_PORT_NUM
     )
+    # da_server_context is passed as argument to op-batcher and op-node(s)
     return new_da_server_context(
         http_url=http_url,
         generic_commitment=generic_commitment,
@@ -54,7 +54,6 @@ def get_da_server_config(
     service_name,
     image,
     cmd,
-    generic_commitment,
 ):
     ports = get_used_ports()
 
