@@ -109,6 +109,9 @@ def get_batcher_config(
         else "blobs",
         "--altda.enabled=" + str(da_server_context.enabled),
         "--altda.da-server=" + da_server_context.http_url,
+        # This flag is very badly named, but is needed in order to let the da-server compute the commitment.
+        # This leads to sending POST requests to /put instead of /put/<keccak256(data)>
+        "--altda.da-service",
     ]
 
     # apply customizations
